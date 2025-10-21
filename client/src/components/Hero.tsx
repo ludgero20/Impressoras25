@@ -1,9 +1,21 @@
+import { useState } from "react";
+import { useLocation } from "wouter";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import heroImage from "@assets/generated_images/Clean_desk_with_printer_setup_bc35366c.png";
 
 export default function Hero() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [, setLocation] = useLocation();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setLocation(`/buscar?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   return (
     <div className="relative h-64 overflow-hidden">
       <div
@@ -21,23 +33,26 @@ export default function Hero() {
           Tutoriais passo a passo para todas as marcas. Encontre o guia perfeito para seu modelo.
         </p>
 
-        <div className="w-full max-w-md">
+        <form onSubmit={handleSearch} className="w-full max-w-md">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
               placeholder="Procure por modelo ou marca..."
               className="pl-10 bg-white/95 backdrop-blur-sm"
               data-testid="input-search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <Button
               className="absolute right-1 top-1/2 -translate-y-1/2"
               size="sm"
               data-testid="button-search"
+              type="submit"
             >
               Buscar
             </Button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
