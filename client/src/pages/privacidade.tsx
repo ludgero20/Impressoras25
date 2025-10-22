@@ -126,24 +126,7 @@ export default function PrivacidadePage() {
               qualquer site que você visitar.
             </p>
 
-            <h2>8. Seus Direitos</h2>
-            <p>
-              Você tem o direito de:
-            </p>
-            <ul>
-              <li>Desativar cookies no seu navegador (isso pode afetar a funcionalidade do site)</li>
-              <li>Optar por não receber anúncios personalizados do Google</li>
-              <li>Solicitar informações sobre dados coletados</li>
-            </ul>
-
-            <h2>9. Menores de Idade</h2>
-            <p>
-              Nosso site não é direcionado a menores de 13 anos e não coletamos intencionalmente 
-              informações de crianças. Se você é pai ou responsável e acredita que seu filho 
-              forneceu informações ao nosso site, entre em contato conosco.
-            </p>
-
-            <h2>10. Alterações nesta Política</h2>
+            <h2>9. Alterações nesta Política</h2>
             <p>
               Podemos atualizar esta Política de Privacidade periodicamente. Quando fizermos 
               alterações significativas, atualizaremos a data no topo desta página. Recomendamos 
@@ -151,14 +134,14 @@ export default function PrivacidadePage() {
               suas informações.
             </p>
 
-            <h2>11. Conformidade com a LGPD</h2>
+            <h2>10. Conformidade com a LGPD</h2>
             <p>
               Este site está em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei 
               nº 13.709/2018). Tratamos dados pessoais de forma transparente, segura e em 
               conformidade com a legislação brasileira.
             </p>
 
-            <h2>12. Contato</h2>
+            <h2>11. Contato</h2>
             <p>
               Se você tiver dúvidas sobre esta Política de Privacidade ou sobre o tratamento 
               de seus dados, você pode entrar em contato através das informações disponíveis 
