@@ -157,11 +157,29 @@ Mais conteúdo...
 - ✅ **Segurança**: Sanitização HTML com DOMPurify (prevenção XSS)
 - ✅ **Performance**: Componente de imagem com lazy loading pronto para uso
 
-## Monetização - Google AdSense
-Espaços publicitários reservados em:
-- **Homepage**: Banner leaderboard (728x90) desktop / Mobile (320x100)
-- **Tutoriais**: Rectangle (300x250) no topo + In-article responsivo no meio
-- Todos os espaços estão marcados visualmente e prontos para receber código AdSense
+## Monetização - Google AdSense Auto Ads
+
+O site está configurado para usar **Google AdSense Auto Ads**, onde o próprio Google decide automaticamente onde colocar os anúncios de forma otimizada para maximizar receita e experiência do usuário.
+
+### Como Configurar
+
+1. **Crie uma conta no Google AdSense** em https://www.google.com/adsense
+2. **Obtenha seu código de publicador** (formato: ca-pub-XXXXXXXXXXXXXXXX)
+3. **Substitua no arquivo `client/index.html`** linha 20:
+   ```html
+   <!-- Substitua ca-pub-XXXXXXXXXXXXXXXX pelo seu ID real -->
+   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+        crossorigin="anonymous"></script>
+   ```
+4. **Publique o site** e aguarde aprovação do Google (pode levar alguns dias)
+5. **Ative Auto Ads** no painel do AdSense → Anúncios → Por site → Ativar
+
+### Vantagens do Auto Ads
+- ✅ Google otimiza posicionamento automaticamente
+- ✅ Adapta-se ao comportamento dos usuários
+- ✅ Testa diferentes formatos e posições
+- ✅ Máxima receita com mínima configuração
+- ✅ Responsivo (funciona em mobile e desktop)
 
 ## Vantagens da Estrutura Atual
 

@@ -266,6 +266,29 @@ Configure a impressora para modo rascunho ou economia de tinta nas opções de i
 Sempre use a visualização de impressão para evitar reimpressões.
 ```
 
+## 💰 Monetização com Google AdSense Auto Ads
+
+O site está configurado para usar **Google AdSense Auto Ads**, onde o Google decide automaticamente os melhores locais para anúncios.
+
+### Como Ativar
+
+1. **Crie conta no Google AdSense**: https://www.google.com/adsense
+2. **Obtenha seu ID de publicador** (formato: `ca-pub-XXXXXXXXXXXXXXXX`)
+3. **Edite `client/index.html` linha 20**:
+   ```html
+   <!-- Substitua XXXXXXXXXXXXXXXX pelo seu ID real -->
+   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+        crossorigin="anonymous"></script>
+   ```
+4. **Publique o site** e aguarde aprovação do Google
+5. **Ative Auto Ads** no painel AdSense → Anúncios → Por site → Ativar
+
+### Vantagens
+- ✅ Google otimiza posicionamento automaticamente
+- ✅ Adapta aos usuários e dispositivos
+- ✅ Máxima receita com configuração mínima
+- ✅ Testa formatos e posições constantemente
+
 ## 📞 Precisa de Ajuda?
 
 - Veja os arquivos existentes em `content/marcas/` e `content/dicas/` como referência
