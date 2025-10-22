@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TutorialCard from "@/components/TutorialCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import AdSpace from "@/components/AdSpace";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Clock, AlertCircle } from "lucide-react";
@@ -144,10 +143,6 @@ export default function TutorialPage() {
         </div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="flex justify-center mb-8">
-            <AdSpace size="rectangle" />
-          </div>
-
           <Card className="p-6 mb-8 border-l-4 border-l-primary">
             <div className="flex gap-3">
               <AlertCircle className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
@@ -163,10 +158,6 @@ export default function TutorialPage() {
 
           <div className="prose prose-lg max-w-none dark:prose-invert">
             <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(tutorial.content) }} />
-          </div>
-
-          <div className="flex justify-center my-8">
-            <AdSpace size="in-article" />
           </div>
 
           {filteredRelated.length > 0 && (
