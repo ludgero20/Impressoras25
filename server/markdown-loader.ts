@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { marked } from 'marked';
 import { type InsertBrand, type InsertTutorial, type InsertTip } from '@shared/schema';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
@@ -95,19 +96,8 @@ export function loadTutorials(): InsertTutorial[] {
           continue;
         }
         
-        // Converter markdown headers (##) para HTML
-        const htmlContent = content
-          .split('\n')
-          .map(line => {
-            if (line.startsWith('## ')) {
-              return `<h3>${line.substring(3)}</h3>`;
-            } else if (line.trim() === '') {
-              return '';
-            } else {
-              return `<p>${line}</p>`;
-            }
-          })
-          .join('\n');
+        // Converter markdown para HTML usando marked
+        const htmlContent = marked.parse(content) as string;
         
         tutorials.push({
           title: data.title,
@@ -178,19 +168,8 @@ export function loadTips(): InsertTip[] {
         continue;
       }
       
-      // Converter markdown headers (##) para HTML
-      const htmlContent = content
-        .split('\n')
-        .map(line => {
-          if (line.startsWith('## ')) {
-            return `<h3>${line.substring(3)}</h3>`;
-          } else if (line.trim() === '') {
-            return '';
-          } else {
-            return `<p>${line}</p>`;
-          }
-        })
-        .join('\n');
+      // Converter markdown para HTML usando marked
+      const htmlContent = marked.parse(content) as string;
       
       tips.push({
         title: data.title,
