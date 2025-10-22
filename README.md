@@ -124,27 +124,65 @@ Alguns ícones úteis do Lucide React:
 - `Download` - Downloads
 - `Printer` - Impressora
 
-## 📋 Dicas de Formatação
+## 📋 Formatação Markdown Suportada
+
+O conteúdo dos arquivos `.md` suporta **formatação completa em Markdown** usando a biblioteca [marked](https://marked.js.org/).
 
 ### Headers (Títulos)
-- Use `## ` para criar títulos de seções (renderiza como `<h3>`)
-- Não use `#` (um #) sozinho - reserve para o título no frontmatter
-
-### Parágrafos
-- Escreva parágrafos normalmente
-- Deixe uma linha em branco entre parágrafos diferentes
-
-### Listas (futuro)
-Se precisar de listas, adicione suporte no `markdown-loader.ts` ou use parágrafos numerados:
 ```markdown
-1. Primeiro item
-2. Segundo item
-3. Terceiro item
+## Título Principal (renderiza como <h2>)
+### Subtítulo (renderiza como <h3>)
 ```
 
-### Negrito e Itálico
-- **Negrito**: `**texto**` (futuro - precisa adicionar suporte)
-- *Itálico*: `*texto*` (futuro - precisa adicionar suporte)
+### Texto Formatado
+```markdown
+**Negrito** ou __negrito__
+*Itálico* ou _itálico_
+***Negrito e itálico***
+`código inline`
+```
+
+### Listas
+
+**Listas não ordenadas:**
+```markdown
+- Item 1
+- Item 2
+  - Subitem 2.1
+  - Subitem 2.2
+- Item 3
+```
+
+**Listas ordenadas:**
+```markdown
+1. Primeiro passo
+2. Segundo passo
+3. Terceiro passo
+```
+
+### Links
+```markdown
+[Texto do link](https://exemplo.com)
+[Site da HP](https://hp.com/br)
+```
+
+### Código
+```markdown
+Use `código inline` para comandos ou nomes de arquivos.
+```
+
+### Exemplo Completo
+```markdown
+## Passo 1: Preparar Materiais
+
+Você vai precisar dos seguintes itens:
+
+- Cabo USB **original**
+- Driver *atualizado* da [HP](https://hp.com)
+- Pelo menos `10 folhas` de papel A4
+
+**Importante:** Certifique-se de que todos os materiais estão prontos antes de continuar.
+```
 
 ## 🚀 Workflow Completo
 
