@@ -33,25 +33,24 @@ export default function Hero() {
           Tutoriais passo a passo para todas as marcas. Encontre o guia perfeito para seu modelo.
         </p>
 
-        <form onSubmit={handleSearch} className="w-full max-w-md">
-          <div className="relative flex items-center">
-            <Search className="absolute left-3 w-5 h-5 text-muted-foreground" />
+        <form onSubmit={handleSearch} className="w-full max-w-md flex flex-col gap-3">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
               placeholder="Procure por modelo ou marca..."
-              className="pl-10 pr-24 bg-white/95 backdrop-blur-sm"
+              className="pl-10 bg-white/95 backdrop-blur-sm"
               data-testid="input-search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button
-              className="absolute right-1"
-              size="sm"
-              data-testid="button-search"
-              type="submit"
-            >
-              Buscar
-            </Button>
           </div>
+          <Button
+            size="default"
+            data-testid="button-search"
+            type="submit"
+          >
+            Buscar
+          </Button>
         </form>
       </div>
     </div>
