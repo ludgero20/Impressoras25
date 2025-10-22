@@ -8,6 +8,11 @@ difficulty: "Médio"
 isPopular: false
 ---
 
+## O que é WiFi Direct?
+
+O WiFi Direct permite conectar seu celular, tablet ou computador diretamente à impressora Epson L4260, **sem precisar de um roteador ou rede de internet**. É ideal para imprimir rapidamente a partir de dispositivos móveis.
+Veja como configurar:
+
 ## Passo 1: Ligar e Preparar Impressora
 
 Conecte a Epson EcoTank L4260 à tomada e pressione o botão power. Certifique-se de que os tanques estão cheios de tinta. No painel LCD touchscreen, selecione o idioma Português.
