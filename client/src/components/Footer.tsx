@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="bg-muted/30 border-t mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Printer className="w-6 h-6 text-primary" />
@@ -80,10 +80,38 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+
+          <div>
+            <h3 className="font-semibold mb-4">Informações</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/sobre">
+                  <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Sobre
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacidade">
+                  <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    Política de Privacidade
+                  </span>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+        <div className="border-t mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>&copy; 2025 Instalação de Impressoras. Todos os direitos reservados.</p>
+          <div className="flex gap-4">
+            <Link href="/sobre">
+              <span className="hover:text-foreground transition-colors">Sobre</span>
+            </Link>
+            <Link href="/privacidade">
+              <span className="hover:text-foreground transition-colors">Privacidade</span>
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
