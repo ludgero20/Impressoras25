@@ -8,6 +8,8 @@ import TutorialPage from "@/pages/tutorial";
 import TipPage from "@/pages/tip";
 import BrandPage from "@/pages/brand";
 import SearchPage from "@/pages/search";
+import SobrePage from "@/pages/sobre";
+import PrivacidadePage from "@/pages/privacidade";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,6 +20,8 @@ function Router() {
       <Route path="/dica/:slug" component={TipPage} />
       <Route path="/marca/:slug" component={BrandPage} />
       <Route path="/buscar" component={SearchPage} />
+      <Route path="/sobre" component={SobrePage} />
+      <Route path="/privacidade" component={PrivacidadePage} />
       <Route component={NotFound} />
     </Switch>
   );
