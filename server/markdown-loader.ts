@@ -41,6 +41,31 @@ function readMarkdownFiles(dir: string): string[] {
 }
 
 /**
+ * Valida campos obrigatórios do frontmatter
+ */
+function validateTutorialFrontmatter(data: any, filePath: string): boolean {
+  const required = ['title', 'slug', 'brand', 'brandSlug', 'readTime', 'difficulty'];
+  for (const field of required) {
+    if (!data[field]) {
+      console.error(`Campo obrigatório "${field}" faltando em ${filePath}`);
+      return false;
+    }
+  }
+  return true;
+}
+
+function validateTipFrontmatter(data: any, filePath: string): boolean {
+  const required = ['title', 'slug', 'description', 'icon', 'category'];
+  for (const field of required) {
+    if (!data[field]) {
+      console.error(`Campo obrigatório "${field}" faltando em ${filePath}`);
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
  * Carrega todos os tutoriais dos arquivos markdown
  */
 export function loadTutorials(): InsertTutorial[] {
@@ -64,6 +89,11 @@ export function loadTutorials(): InsertTutorial[] {
       try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         const { data, content } = matter(fileContent);
+        
+        // Validar frontmatter
+        if (!validateTutorialFrontmatter(data, filePath)) {
+          continue;
+        }
         
         // Converter markdown headers (##) para HTML
         const htmlContent = content
@@ -99,11 +129,12 @@ export function loadTutorials(): InsertTutorial[] {
 }
 
 /**
- * Carrega todas as marcas baseado nos tutoriais disponíveis
+ * Carrega todas as marcas baseado nos tutoriais já carregados
+ * Aceita tutoriais pré-carregados para evitar double parsing
  */
-export function loadBrands(): InsertBrand[] {
+export function loadBrands(preloadedTutorials?: InsertTutorial[]): InsertBrand[] {
   const brands: InsertBrand[] = [];
-  const tutorials = loadTutorials();
+  const tutorials = preloadedTutorials || loadTutorials();
   
   // Contar tutoriais por marca
   const tutorialCount: { [key: string]: number } = {};
@@ -141,6 +172,11 @@ export function loadTips(): InsertTip[] {
     try {
       const fileContent = fs.readFileSync(filePath, 'utf-8');
       const { data, content } = matter(fileContent);
+      
+      // Validar frontmatter
+      if (!validateTipFrontmatter(data, filePath)) {
+        continue;
+      }
       
       // Converter markdown headers (##) para HTML
       const htmlContent = content

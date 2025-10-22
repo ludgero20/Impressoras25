@@ -32,21 +32,26 @@ export class MemStorage implements IStorage {
   private initializeData() {
     console.log('Carregando conteúdo dos arquivos markdown...');
     
-    // Carregar marcas dos arquivos markdown
-    const brandsData: InsertBrand[] = loadBrands();
-    brandsData.forEach(brand => {
-      const id = randomUUID();
-      this.brands.set(id, { ...brand, id, description: brand.description ?? null });
-    });
-    console.log(`✓ ${brandsData.length} marcas carregadas`);
-
-    // Carregar tutoriais dos arquivos markdown
+    // Carregar tutoriais primeiro (usado para calcular contagem de marcas)
     const tutorialsData: InsertTutorial[] = loadTutorials();
     tutorialsData.forEach(tutorial => {
       const id = randomUUID();
       this.tutorials.set(id, { ...tutorial, id, isPopular: tutorial.isPopular ?? 0 });
     });
     console.log(`✓ ${tutorialsData.length} tutoriais carregados`);
+    
+    // Carregar marcas baseado nos tutoriais já carregados (evita double parsing)
+    const brandsData: InsertBrand[] = loadBrands(tutorialsData);
+    brandsData.forEach(brand => {
+      const id = randomUUID();
+      this.brands.set(id, { 
+        ...brand, 
+        id, 
+        description: brand.description ?? null,
+        tutorialCount: brand.tutorialCount ?? 0
+      });
+    });
+    console.log(`✓ ${brandsData.length} marcas carregadas`);
 
     // Carregar dicas dos arquivos markdown
     const tipsData: InsertTip[] = loadTips();
