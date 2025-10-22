@@ -10,8 +10,9 @@ Fornecer guias passo a passo simplificados para instalação de impressoras, org
 - **Frontend**: React + TypeScript, Wouter (routing), TanStack Query, Shadcn UI, Tailwind CSS
 - **Backend**: Express.js + TypeScript
 - **Conteúdo**: Arquivos Markdown (.md) organizados em pastas
-- **Parsing**: gray-matter para frontmatter YAML
+- **Parsing**: gray-matter + marked (markdown completo), isomorphic-dompurify (sanitização XSS)
 - **Design**: Sistema de cores profissional azul/teal, tipografia Inter
+- **SEO**: Schema.org JSON-LD, Open Graph, sitemap.xml dinâmico
 
 ## Estrutura do Projeto
 
@@ -24,16 +25,19 @@ Fornecer guias passo a passo simplificados para instalação de impressoras, org
 
 #### Páginas
 - **Home** (`pages/home.tsx`): Cards de dicas em destaque, grid de marcas, tutoriais populares
-- **Marca** (`pages/brand.tsx`): Lista todos os tutoriais de uma marca específica
-- **Tutorial** (`pages/tutorial.tsx`): Tutorial passo a passo completo com breadcrumbs
-- **Busca** (`pages/search.tsx`): Busca dinâmica de tutoriais com debounce
+- **Marca** (`pages/brand.tsx`): Lista todos os tutoriais de uma marca específica com breadcrumbs
+- **Tutorial** (`pages/tutorial.tsx`): Tutorial passo a passo com Schema.org HowTo, Open Graph, breadcrumbs
+- **Dica** (`pages/tip.tsx`): Página individual de dica com conteúdo markdown sanitizado
+- **Busca** (`pages/search.tsx`): Busca dinâmica de tutoriais com debounce e breadcrumbs
 
 #### Componentes
 - `Header`: Navegação principal com dropdown de marcas, theme toggle
-- `Hero`: Banner com imagem e busca integrada
+- `Hero`: Banner com imagem e busca integrada (botão abaixo da barra)
 - `TipCard`, `BrandCard`, `TutorialCard`: Cards reutilizáveis
 - `AdSpace`: Espaços reservados para Google AdSense (leaderboard, rectangle, in-article, mobile)
 - `Footer`: Links organizados por categoria
+- `Breadcrumbs`: Navegação hierárquica reutilizável
+- `OptimizedImage`: Imagem com lazy loading automático (para uso futuro)
 
 ### Conteúdo (`content/`)
 
@@ -99,6 +103,9 @@ Mais conteúdo...
 - `GET /api/tips?category=:category` - Filtra por categoria (destaque, geral)
 - `GET /api/tips/:slug` - Busca dica por slug
 
+### Sitemap
+- `GET /sitemap.xml` - Sitemap dinâmico com todas URLs do site (marcas, tutoriais, dicas)
+
 ## Conteúdo Atual
 
 ### Marcas (6 total)
@@ -130,19 +137,25 @@ Mais conteúdo...
 **Veja README.md para guia completo!**
 
 ## Funcionalidades Implementadas
-- ✅ Sistema de conteúdo baseado em arquivos Markdown
+- ✅ Sistema de conteúdo baseado em arquivos Markdown com suporte completo (negrito, itálico, listas, links)
 - ✅ Carregamento automático de tutoriais, marcas e dicas
 - ✅ Navegação por marcas via dropdown
 - ✅ Busca em tempo real com debounce
-- ✅ Páginas dinâmicas por marca
-- ✅ Tutoriais passo a passo detalhados com conteúdo real
+- ✅ Páginas dinâmicas por marca e dicas individuais
+- ✅ Tutoriais passo a passo detalhados com conteúdo real renderizado do markdown
 - ✅ Sistema de dificuldade (Fácil/Médio/Avançado)
 - ✅ Tutoriais relacionados
 - ✅ Dark mode
-- ✅ Breadcrumbs de navegação
+- ✅ Breadcrumbs de navegação em todas as páginas
 - ✅ Espaços para Google AdSense estrategicamente posicionados
 - ✅ Design responsivo
-- ✅ SEO otimizado (meta tags, títulos descritivos)
+- ✅ **SEO Avançado**:
+  - Schema.org JSON-LD (HowTo) em tutoriais com tempo ISO 8601
+  - Open Graph tags dinâmicos para compartilhamento social
+  - Meta descriptions personalizadas por página
+  - Sitemap.xml dinâmico
+- ✅ **Segurança**: Sanitização HTML com DOMPurify (prevenção XSS)
+- ✅ **Performance**: Componente de imagem com lazy loading pronto para uso
 
 ## Monetização - Google AdSense
 Espaços publicitários reservados em:

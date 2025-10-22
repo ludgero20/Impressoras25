@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TutorialCard from "@/components/TutorialCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import type { Tutorial } from "@shared/schema";
@@ -36,6 +37,11 @@ export default function SearchPage() {
       <main className="flex-1">
         <div className="bg-muted/30 border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <Breadcrumbs items={[
+              { label: "Início", href: "/" },
+              { label: "Buscar" }
+            ]} />
+            
             <h1 className="text-4xl font-bold mb-6">Buscar Tutoriais</h1>
             
             <div className="relative max-w-2xl">
