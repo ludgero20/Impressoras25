@@ -8,15 +8,22 @@ const CONTENT_DIR = path.join(process.cwd(), 'content');
 const BRANDS_DIR = path.join(CONTENT_DIR, 'marcas');
 const TIPS_DIR = path.join(CONTENT_DIR, 'dicas');
 
-// Mapeamento de marcas disponíveis
-const BRAND_INFO: { [key: string]: { name: string; description: string } } = {
-  hp: { name: 'HP', description: 'Hewlett-Packard - Líder mundial em impressoras' },
-  canon: { name: 'Canon', description: 'Impressoras e scanners de alta qualidade' },
-  epson: { name: 'Epson', description: 'Tecnologia de impressão avançada' },
-  brother: { name: 'Brother', description: 'Soluções de impressão confiáveis' },
-  samsung: { name: 'Samsung', description: 'Impressoras multifuncionais modernas' },
-  lexmark: { name: 'Lexmark', description: 'Impressoras corporativas e domésticas' },
-};
+/**
+ * Capitaliza a primeira letra de cada palavra
+ */
+function capitalizeWords(str: string): string {
+  return str
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+/**
+ * Gera uma descrição genérica para a marca
+ */
+function generateBrandDescription(brandName: string): string {
+  return `Tutoriais de instalação para impressoras ${brandName}`;
+}
 
 /**
  * Lê todos os arquivos markdown de um diretório
@@ -119,12 +126,17 @@ export function loadTutorials(): InsertTutorial[] {
 }
 
 /**
- * Carrega todas as marcas baseado nos tutoriais já carregados
+ * Carrega todas as marcas automaticamente lendo as pastas em content/marcas/
  * Aceita tutoriais pré-carregados para evitar double parsing
  */
 export function loadBrands(preloadedTutorials?: InsertTutorial[]): InsertBrand[] {
   const brands: InsertBrand[] = [];
   const tutorials = preloadedTutorials || loadTutorials();
+  
+  if (!fs.existsSync(BRANDS_DIR)) {
+    console.warn('Diretório de marcas não encontrado:', BRANDS_DIR);
+    return brands;
+  }
   
   // Contar tutoriais por marca
   const tutorialCount: { [key: string]: number } = {};
@@ -132,16 +144,24 @@ export function loadBrands(preloadedTutorials?: InsertTutorial[]): InsertBrand[]
     tutorialCount[tutorial.brandSlug] = (tutorialCount[tutorial.brandSlug] || 0) + 1;
   }
   
-  // Criar lista de marcas e ordenar alfabeticamente
-  for (const [slug, info] of Object.entries(BRAND_INFO)) {
+  // Ler todas as pastas em content/marcas/
+  const brandDirs = fs.readdirSync(BRANDS_DIR, { withFileTypes: true });
+  
+  for (const brandDir of brandDirs) {
+    if (!brandDir.isDirectory()) continue;
+    
+    const slug = brandDir.name;
     const count = tutorialCount[slug] || 0;
     
     // Apenas incluir marcas que têm pelo menos 1 tutorial
     if (count > 0) {
+      // Gerar nome da marca a partir do slug (capitalizar)
+      const brandName = capitalizeWords(slug);
+      
       brands.push({
-        name: info.name,
+        name: brandName,
         slug,
-        description: info.description,
+        description: generateBrandDescription(brandName),
         tutorialCount: count,
       });
     }
