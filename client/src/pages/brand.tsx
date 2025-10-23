@@ -22,6 +22,10 @@ export default function BrandPage() {
     enabled: !!slug,
   });
 
+  const sortedTutorials = [...tutorials].sort((a, b) => 
+    a.title.localeCompare(b.title, 'pt-BR')
+  );
+
   if (!brand) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -60,12 +64,12 @@ export default function BrandPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="mb-6">
             <h2 className="text-2xl font-bold">
-              {tutorials.length} {tutorials.length === 1 ? 'tutorial disponível' : 'tutoriais disponíveis'}
+              {sortedTutorials.length} {sortedTutorials.length === 1 ? 'tutorial disponível' : 'tutoriais disponíveis'}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tutorials.map((tutorial) => (
+            {sortedTutorials.map((tutorial) => (
               <TutorialCard
                 key={tutorial.id}
                 title={tutorial.title}
@@ -78,7 +82,7 @@ export default function BrandPage() {
             ))}
           </div>
 
-          {tutorials.length === 0 && (
+          {sortedTutorials.length === 0 && (
             <div className="text-center py-12">
               <p className="text-muted-foreground">
                 Ainda não há tutoriais disponíveis para esta marca.
