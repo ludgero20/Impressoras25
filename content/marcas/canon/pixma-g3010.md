@@ -1,5 +1,5 @@
 ---
-title: "Configurar Impressão WiFi Canon PIXMA G3010"
+title: "Canon PIXMA G3010: Configurar Impressão WiFi"
 slug: "canon-pixma-g3010"
 brand: "Canon"
 brandSlug: "canon"

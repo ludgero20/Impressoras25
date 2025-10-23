@@ -1,5 +1,5 @@
 ---
-title: "Como Instalar Impressora HP DeskJet 2700 no Windows 11"
+title: "HP DeskJet 2700: Como Instalar Impressora"
 slug: "hp-deskjet-2700"
 brand: "HP"
 brandSlug: "hp"
