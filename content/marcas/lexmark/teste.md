@@ -1,8 +1,8 @@
 ---
-title: "Samsung Xpress M2020W: Setup WiFi"
-slug: "samsung-xpress-m2020w"
-brand: "Samsung"
-brandSlug: "samsung"
+title: "Lexmark 123"
+slug: "lexmark-xpress-m2020w"
+brand: "Lexmark"
+brandSlug: "lexmark"
 readTime: "9 min"
 difficulty: "Médio"
 isPopular: false
