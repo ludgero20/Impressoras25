@@ -17,6 +17,7 @@ export default function BrandCarousel({ brands }: BrandCarouselProps) {
   });
 
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [canScroll, setCanScroll] = useState(false);
 
   const onScroll = useCallback(() => {
     if (!emblaApi) return;
@@ -25,18 +26,33 @@ export default function BrandCarousel({ brands }: BrandCarouselProps) {
     setScrollProgress(progress * 100);
   }, [emblaApi]);
 
+  const updateCanScroll = useCallback(() => {
+    if (!emblaApi) return;
+    
+    const canScrollNext = emblaApi.canScrollNext();
+    const canScrollPrev = emblaApi.canScrollPrev();
+    setCanScroll(canScrollNext || canScrollPrev);
+  }, [emblaApi]);
+
   useEffect(() => {
     if (!emblaApi) return;
 
     onScroll();
+    updateCanScroll();
+    
     emblaApi.on("scroll", onScroll);
-    emblaApi.on("reInit", onScroll);
+    emblaApi.on("reInit", () => {
+      onScroll();
+      updateCanScroll();
+    });
+    emblaApi.on("select", updateCanScroll);
 
     return () => {
       emblaApi.off("scroll", onScroll);
       emblaApi.off("reInit", onScroll);
+      emblaApi.off("select", updateCanScroll);
     };
-  }, [emblaApi, onScroll]);
+  }, [emblaApi, onScroll, updateCanScroll]);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -65,7 +81,7 @@ export default function BrandCarousel({ brands }: BrandCarouselProps) {
         </div>
       </div>
 
-      {brands.length > 6 && (
+      {canScroll && (
         <>
           <Button
             variant="outline"
