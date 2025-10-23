@@ -1,7 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import BrandCard from "@/components/BrandCard";
 import type { Brand } from "@shared/schema";
 
@@ -9,100 +7,92 @@ interface BrandCarouselProps {
   brands: Brand[];
 }
 
-export default function BrandCarousel({ brands }: BrandCarouselProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    slidesToScroll: 1,
-    containScroll: "trimSnaps",
-  });
+export interface BrandCarouselRef {
+  scrollPrev: () => void;
+  scrollNext: () => void;
+  canScroll: boolean;
+}
 
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [canScroll, setCanScroll] = useState(false);
+const BrandCarousel = forwardRef<BrandCarouselRef, BrandCarouselProps>(
+  ({ brands }, ref) => {
+    const [emblaRef, emblaApi] = useEmblaCarousel({
+      align: "start",
+      slidesToScroll: 1,
+      containScroll: "trimSnaps",
+    });
 
-  const onScroll = useCallback(() => {
-    if (!emblaApi) return;
+    const [scrollProgress, setScrollProgress] = useState(0);
+    const [canScroll, setCanScroll] = useState(false);
 
-    const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
-    setScrollProgress(progress * 100);
-  }, [emblaApi]);
+    const onScroll = useCallback(() => {
+      if (!emblaApi) return;
 
-  const updateCanScroll = useCallback(() => {
-    if (!emblaApi) return;
-    
-    const canScrollNext = emblaApi.canScrollNext();
-    const canScrollPrev = emblaApi.canScrollPrev();
-    setCanScroll(canScrollNext || canScrollPrev);
-  }, [emblaApi]);
+      const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
+      setScrollProgress(progress * 100);
+    }, [emblaApi]);
 
-  useEffect(() => {
-    if (!emblaApi) return;
+    const updateCanScroll = useCallback(() => {
+      if (!emblaApi) return;
 
-    onScroll();
-    updateCanScroll();
-    
-    emblaApi.on("scroll", onScroll);
-    emblaApi.on("reInit", () => {
+      const canScrollNext = emblaApi.canScrollNext();
+      const canScrollPrev = emblaApi.canScrollPrev();
+      setCanScroll(canScrollNext || canScrollPrev);
+    }, [emblaApi]);
+
+    useEffect(() => {
+      if (!emblaApi) return;
+
       onScroll();
       updateCanScroll();
-    });
-    emblaApi.on("select", updateCanScroll);
 
-    return () => {
-      emblaApi.off("scroll", onScroll);
-      emblaApi.off("reInit", onScroll);
-      emblaApi.off("select", updateCanScroll);
-    };
-  }, [emblaApi, onScroll, updateCanScroll]);
+      emblaApi.on("scroll", onScroll);
+      emblaApi.on("reInit", () => {
+        onScroll();
+        updateCanScroll();
+      });
+      emblaApi.on("select", updateCanScroll);
 
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+      return () => {
+        emblaApi.off("scroll", onScroll);
+        emblaApi.off("reInit", onScroll);
+        emblaApi.off("select", updateCanScroll);
+      };
+    }, [emblaApi, onScroll, updateCanScroll]);
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+    const scrollPrev = useCallback(() => {
+      if (emblaApi) emblaApi.scrollPrev();
+    }, [emblaApi]);
 
-  if (brands.length === 0) {
-    return null;
-  }
+    const scrollNext = useCallback(() => {
+      if (emblaApi) emblaApi.scrollNext();
+    }, [emblaApi]);
 
-  return (
-    <div className="relative">
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-4">
-          {brands.map((brand) => (
-            <div
-              key={brand.id}
-              className="flex-none w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.667rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-0.8rem)] xl:w-[calc(16.666%-0.833rem)]"
-            >
-              <BrandCard {...brand} />
-            </div>
-          ))}
+    useImperativeHandle(ref, () => ({
+      scrollPrev,
+      scrollNext,
+      canScroll,
+    }), [scrollPrev, scrollNext, canScroll]);
+
+    if (brands.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="relative">
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex gap-4">
+            {brands.map((brand) => (
+              <div
+                key={brand.id}
+                className="flex-none w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.667rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-0.8rem)] xl:w-[calc(16.666%-0.833rem)]"
+              >
+                <BrandCard {...brand} />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {canScroll && (
-        <>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={scrollPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 shadow-lg bg-background/95 backdrop-blur-sm hidden md:flex"
-            data-testid="button-carousel-prev"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={scrollNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 shadow-lg bg-background/95 backdrop-blur-sm hidden md:flex"
-            data-testid="button-carousel-next"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-
+        {canScroll && (
           <div className="mt-6 h-1 w-full bg-border/40 rounded-full overflow-hidden">
             <div
               className="h-full bg-primary/60 rounded-full transition-all duration-300"
@@ -110,8 +100,12 @@ export default function BrandCarousel({ brands }: BrandCarouselProps) {
               data-testid="carousel-scrollbar"
             />
           </div>
-        </>
-      )}
-    </div>
-  );
-}
+        )}
+      </div>
+    );
+  }
+);
+
+BrandCarousel.displayName = "BrandCarousel";
+
+export default BrandCarousel;

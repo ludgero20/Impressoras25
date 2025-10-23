@@ -1,11 +1,13 @@
+import { useRef } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TipCard from "@/components/TipCard";
-import BrandCarousel from "@/components/BrandCarousel";
+import BrandCarousel, { type BrandCarouselRef } from "@/components/BrandCarousel";
 import TutorialCard from "@/components/TutorialCard";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { Wrench, Shield, Zap, HardDrive, Wifi, AlertCircle } from "lucide-react";
+import { Wrench, Shield, Zap, HardDrive, Wifi, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Brand, Tutorial, Tip } from "@shared/schema";
 
 const iconMap: Record<string, any> = {
@@ -18,6 +20,8 @@ const iconMap: Record<string, any> = {
 };
 
 export default function HomePage() {
+  const carouselRef = useRef<BrandCarouselRef>(null);
+
   const { data: brands = [] } = useQuery<Brand[]>({
     queryKey: ["/api/brands"],
   });
@@ -36,6 +40,16 @@ export default function HomePage() {
     queryKey: ["/api/tips", { category: "geral" }],
     queryFn: () => fetch("/api/tips?category=geral").then(res => res.json()),
   });
+
+  const handlePrev = () => {
+    carouselRef.current?.scrollPrev();
+  };
+
+  const handleNext = () => {
+    carouselRef.current?.scrollNext();
+  };
+
+  const canScroll = carouselRef.current?.canScroll ?? false;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -60,8 +74,30 @@ export default function HomePage() {
 
         <section className="bg-muted/30 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold mb-8">Navegue por Marca</h2>
-            <BrandCarousel brands={brands} />
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">Navegue por Marca</h2>
+              {canScroll && (
+                <div className="hidden md:flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handlePrev}
+                    data-testid="button-carousel-prev"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleNext}
+                    data-testid="button-carousel-next"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
+            <BrandCarousel ref={carouselRef} brands={brands} />
           </div>
         </section>
 
