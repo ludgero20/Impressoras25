@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TipCard from "@/components/TipCard";
-import BrandCard from "@/components/BrandCard";
+import BrandCarousel from "@/components/BrandCarousel";
 import TutorialCard from "@/components/TutorialCard";
 import Footer from "@/components/Footer";
 import { useQuery } from "@tanstack/react-query";
@@ -37,6 +37,8 @@ export default function HomePage() {
     queryFn: () => fetch("/api/tips?category=geral").then(res => res.json()),
   });
 
+  const brandsWithTutorials = brands.filter(brand => brand.tutorialCount > 0);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -61,11 +63,7 @@ export default function HomePage() {
         <section className="bg-muted/30 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold mb-8">Navegue por Marca</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-              {brands.map((brand) => (
-                <BrandCard key={brand.id} {...brand} />
-              ))}
-            </div>
+            <BrandCarousel brands={brandsWithTutorials} />
           </div>
         </section>
 
