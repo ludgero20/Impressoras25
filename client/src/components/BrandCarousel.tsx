@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,28 @@ export default function BrandCarousel({ brands }: BrandCarouselProps) {
     slidesToScroll: 1,
     containScroll: "trimSnaps",
   });
+
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const onScroll = useCallback(() => {
+    if (!emblaApi) return;
+
+    const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()));
+    setScrollProgress(progress * 100);
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    onScroll();
+    emblaApi.on("scroll", onScroll);
+    emblaApi.on("reInit", onScroll);
+
+    return () => {
+      emblaApi.off("scroll", onScroll);
+      emblaApi.off("reInit", onScroll);
+    };
+  }, [emblaApi, onScroll]);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -64,6 +86,14 @@ export default function BrandCarousel({ brands }: BrandCarouselProps) {
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
+
+          <div className="mt-6 h-1 w-full bg-border/40 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-primary/60 rounded-full transition-all duration-300"
+              style={{ width: `${scrollProgress}%` }}
+              data-testid="carousel-scrollbar"
+            />
+          </div>
         </>
       )}
     </div>
