@@ -134,12 +134,17 @@ export function loadBrands(preloadedTutorials?: InsertTutorial[]): InsertBrand[]
   
   // Criar lista de marcas e ordenar alfabeticamente
   for (const [slug, info] of Object.entries(BRAND_INFO)) {
-    brands.push({
-      name: info.name,
-      slug,
-      description: info.description,
-      tutorialCount: tutorialCount[slug] || 0,
-    });
+    const count = tutorialCount[slug] || 0;
+    
+    // Apenas incluir marcas que têm pelo menos 1 tutorial
+    if (count > 0) {
+      brands.push({
+        name: info.name,
+        slug,
+        description: info.description,
+        tutorialCount: count,
+      });
+    }
   }
   
   // Ordenar alfabeticamente por nome

@@ -37,8 +37,6 @@ export default function HomePage() {
     queryFn: () => fetch("/api/tips?category=geral").then(res => res.json()),
   });
 
-  const brandsWithTutorials = brands.filter(brand => brand.tutorialCount > 0);
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -63,7 +61,7 @@ export default function HomePage() {
         <section className="bg-muted/30 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold mb-8">Navegue por Marca</h2>
-            <BrandCarousel brands={brandsWithTutorials} />
+            <BrandCarousel brands={brands} />
           </div>
         </section>
 
