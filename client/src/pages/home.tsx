@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import TipCard from "@/components/TipCard";
@@ -21,6 +21,7 @@ const iconMap: Record<string, any> = {
 
 export default function HomePage() {
   const carouselRef = useRef<BrandCarouselRef>(null);
+  const [canScroll, setCanScroll] = useState(false);
 
   const { data: brands = [] } = useQuery<Brand[]>({
     queryKey: ["/api/brands"],
@@ -48,8 +49,6 @@ export default function HomePage() {
   const handleNext = () => {
     carouselRef.current?.scrollNext();
   };
-
-  const canScroll = carouselRef.current?.canScroll ?? false;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -97,7 +96,11 @@ export default function HomePage() {
                 </div>
               )}
             </div>
-            <BrandCarousel ref={carouselRef} brands={brands} />
+            <BrandCarousel 
+              ref={carouselRef} 
+              brands={brands}
+              onCanScrollChange={setCanScroll}
+            />
           </div>
         </section>
 

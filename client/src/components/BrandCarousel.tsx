@@ -5,6 +5,7 @@ import type { Brand } from "@shared/schema";
 
 interface BrandCarouselProps {
   brands: Brand[];
+  onCanScrollChange?: (canScroll: boolean) => void;
 }
 
 export interface BrandCarouselRef {
@@ -14,7 +15,7 @@ export interface BrandCarouselRef {
 }
 
 const BrandCarousel = forwardRef<BrandCarouselRef, BrandCarouselProps>(
-  ({ brands }, ref) => {
+  ({ brands, onCanScrollChange }, ref) => {
     const [emblaRef, emblaApi] = useEmblaCarousel({
       align: "start",
       slidesToScroll: 1,
@@ -36,8 +37,11 @@ const BrandCarousel = forwardRef<BrandCarouselRef, BrandCarouselProps>(
 
       const canScrollNext = emblaApi.canScrollNext();
       const canScrollPrev = emblaApi.canScrollPrev();
-      setCanScroll(canScrollNext || canScrollPrev);
-    }, [emblaApi]);
+      const newCanScroll = canScrollNext || canScrollPrev;
+      
+      setCanScroll(newCanScroll);
+      onCanScrollChange?.(newCanScroll);
+    }, [emblaApi, onCanScrollChange]);
 
     useEffect(() => {
       if (!emblaApi) return;
