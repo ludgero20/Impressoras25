@@ -132,7 +132,7 @@ export function loadBrands(preloadedTutorials?: InsertTutorial[]): InsertBrand[]
     tutorialCount[tutorial.brandSlug] = (tutorialCount[tutorial.brandSlug] || 0) + 1;
   }
   
-  // Criar lista de marcas
+  // Criar lista de marcas e ordenar alfabeticamente
   for (const [slug, info] of Object.entries(BRAND_INFO)) {
     brands.push({
       name: info.name,
@@ -141,6 +141,9 @@ export function loadBrands(preloadedTutorials?: InsertTutorial[]): InsertBrand[]
       tutorialCount: tutorialCount[slug] || 0,
     });
   }
+  
+  // Ordenar alfabeticamente por nome
+  brands.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
   
   return brands;
 }
