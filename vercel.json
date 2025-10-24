@@ -6,27 +6,13 @@
       "use": "@vercel/node",
       "config": {
         "includeFiles": [
-          "dist/**",
+          "dist/public/**",
           "content/**"
         ]
       }
-    },
-    {
-       "src": "dist/public/**",
-       "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/dist/index.js"
-    },
-    {
-       "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/public/index.html"
-    }
+    { "src": "/(.*)", "dest": "/" }
   ]
 }
