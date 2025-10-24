@@ -45,9 +45,9 @@ export async function setupVite(app: Express, server: Server) {
     const url = req.originalUrl;
 
     try {
+      // Em desenvolvimento, ainda pegamos o template do diretório client
       const clientTemplate = path.resolve(
-        import.meta.dirname,
-        "..",
+        process.cwd(), // Usar process.cwd() aqui também para consistência
         "client",
         "index.html",
       );
@@ -67,19 +67,37 @@ export async function setupVite(app: Express, server: Server) {
   });
 }
 
+// Modificada para produção na Vercel
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(import.meta.dirname, "public");
+  // Caminho ajustado para funcionar na Vercel após o build
+  const distPath = path.resolve(process.cwd(), 'dist', 'public');
+  console.log('@@@ Servindo arquivos estáticos de:', distPath); // Log para depuração
+  console.log('@@@ Existe distPath?', fs.existsSync(distPath)); // Log para depuração
 
   if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
-    );
+    console.error(`!!!! ERRO CRÍTICO: Diretório dist/public não encontrado em ${distPath}`);
+    // Se o diretório não existe, não faz sentido continuar a configuração estática.
+    // O fallback abaixo lidará com as requisições, mas provavelmente resultará em erros.
+     app.use("*", (_req, res) => {
+       res.status(500).send(`Erro de configuração do servidor: Caminho dos assets estáticos (dist/public) não encontrado.`);
+     });
+     return; // Para aqui se o diretório não existe
   }
 
-  app.use(express.static(distPath));
+  // Serve os arquivos estáticos (CSS, JS, imagens) da pasta dist/public
+  app.use(express.static(distPath, {
+    index: false // Não serve index.html automaticamente, deixamos o fallback fazer isso
+  }));
 
-  // fall through to index.html if the file doesn't exist
+  // Fallback para SPA: para qualquer outra requisição, serve o index.html
   app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+    const indexPath = path.resolve(distPath, "index.html");
+    console.log('@@@ Fallback SPA: Servindo index.html de:', indexPath); // Log
+     if (fs.existsSync(indexPath)) {
+       res.sendFile(indexPath);
+     } else {
+       console.error(`!!!! ERRO CRÍTICO: index.html não encontrado em ${indexPath}`); // Log de erro
+       res.status(404).send('Página não encontrada (Recurso principal ausente).');
+     }
   });
 }
