@@ -36,5 +36,13 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
+    // Configuração do proxy para o backend Express
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5001', // Aponta para o seu servidor Express
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   },
 });
