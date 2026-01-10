@@ -86,6 +86,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/robots.txt", (req, res) => {
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
+      : "http://localhost:5000";
+
+    const robots = `User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: ${baseUrl}/sitemap.xml
+
+# Diretórios importantes
+Allow: /marca/
+Allow: /tutorial/
+Allow: /dica/
+Allow: /buscar
+Allow: /sobre
+Allow: /privacidade
+
+# Arquivos de sistema (não indexar)
+Disallow: /api/
+`;
+
+    res.header('Content-Type', 'text/plain');
+    res.send(robots);
+  });
+
   app.get("/sitemap.xml", async (req, res) => {
     try {
       const [brands, tutorials, tips] = await Promise.all([

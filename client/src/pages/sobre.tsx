@@ -123,6 +123,12 @@ export default function SobrePage() {
               que gostaria de ver ou encontrou alguma informação desatualizada, ficaremos 
               felizes em ouvir seu feedback.
             </p>
+            <p>
+              <strong>Entre em contato:</strong>{" "}
+              <a href="mailto:agendafc@gmail.com.br" className="text-primary hover:underline">
+                agendafc@gmail.com.br
+              </a>
+            </p>
           </div>
         </div>
       </main>
