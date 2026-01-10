@@ -10,6 +10,7 @@ import BrandPage from "@/pages/brand";
 import SearchPage from "@/pages/search";
 import SobrePage from "@/pages/sobre";
 import PrivacidadePage from "@/pages/privacidade";
+import DicasGeraisPage from "@/pages/dicas-gerais";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/buscar" component={SearchPage} />
       <Route path="/sobre" component={SobrePage} />
       <Route path="/privacidade" component={PrivacidadePage} />
+      <Route path="/dicas-gerais" component={DicasGeraisPage} />
       <Route component={NotFound} />
     </Switch>
   );

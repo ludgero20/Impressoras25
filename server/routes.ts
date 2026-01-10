@@ -143,6 +143,24 @@ Disallow: /api/
       sitemap += `    <priority>0.8</priority>\n`;
       sitemap += `  </url>\n`;
 
+      sitemap += `  <url>\n`;
+      sitemap += `    <loc>${baseUrl}/dicas-gerais</loc>\n`;
+      sitemap += `    <changefreq>weekly</changefreq>\n`;
+      sitemap += `    <priority>0.8</priority>\n`;
+      sitemap += `  </url>\n`;
+
+      sitemap += `  <url>\n`;
+      sitemap += `    <loc>${baseUrl}/sobre</loc>\n`;
+      sitemap += `    <changefreq>monthly</changefreq>\n`;
+      sitemap += `    <priority>0.5</priority>\n`;
+      sitemap += `  </url>\n`;
+
+      sitemap += `  <url>\n`;
+      sitemap += `    <loc>${baseUrl}/privacidade</loc>\n`;
+      sitemap += `    <changefreq>monthly</changefreq>\n`;
+      sitemap += `    <priority>0.3</priority>\n`;
+      sitemap += `  </url>\n`;
+
       for (const brand of brands) {
         sitemap += `  <url>\n`;
         sitemap += `    <loc>${baseUrl}/marca/${brand.slug}</loc>\n`;
