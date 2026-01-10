@@ -1,6 +1,7 @@
 {
   "version": 2,
   "buildCommand": "npm run build && cp -r content dist/content",
-  "outputDirectory": "dist",
-  "installCommand": "npm install"
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api" }
+  ]
 }
