@@ -2,18 +2,19 @@ import { Link } from "wouter";
 import { Printer } from "lucide-react";
 
 export default function Footer() {
-  const brands = ["HP", "Canon", "Epson", "Brother", "Samsung"];
-  const categories = [
-    { name: "Instalação Básica", href: "/categoria/instalacao-basica" },
-    { name: "Drivers e Software", href: "/categoria/drivers" },
-    { name: "Conexão WiFi", href: "/categoria/wifi" },
-    { name: "Solução de Problemas", href: "/categoria/problemas" },
+  const brands = ["HP", "Canon", "Epson", "Brother", "Samsung", "Lexmark"];
+  const dicas = [
+    { name: "Todas as Dicas", href: "/dicas-gerais" },
+    { name: "Manutenção Preventiva", href: "/dica/manutencao-preventiva" },
+    { name: "Atualizar Drivers", href: "/dica/atualizar-drivers" },
+    { name: "Melhorar WiFi", href: "/dica/melhorar-wifi" },
+    { name: "Erros Comuns", href: "/dica/erros-comuns" },
   ];
 
   return (
     <footer className="bg-muted/30 border-t mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Printer className="w-6 h-6 text-primary" />
@@ -40,44 +41,17 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-4">Categorias</h3>
+            <h3 className="font-semibold mb-4">Dicas</h3>
             <ul className="space-y-2">
-              {categories.map((category) => (
-                <li key={category.name}>
-                  <Link href={category.href}>
+              {dicas.map((dica) => (
+                <li key={dica.name}>
+                  <Link href={dica.href}>
                     <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                      {category.name}
+                      {dica.name}
                     </span>
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-4">Dicas</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/dicas-gerais">
-                  <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Dicas Gerais
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/manutencao">
-                  <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Manutenção
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/cuidados-pc">
-                  <span className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    Cuidados com PC
-                  </span>
-                </Link>
-              </li>
             </ul>
           </div>
 
