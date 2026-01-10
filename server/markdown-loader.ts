@@ -1,10 +1,24 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import { type InsertBrand, type InsertTutorial, type InsertTip } from '@shared/schema';
 
-const CONTENT_DIR = path.join(process.cwd(), 'content');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function getContentDir(): string {
+  const prodContentDir = path.join(__dirname, 'content');
+  const devContentDir = path.join(process.cwd(), 'content');
+  
+  if (fs.existsSync(prodContentDir)) {
+    return prodContentDir;
+  }
+  return devContentDir;
+}
+
+const CONTENT_DIR = getContentDir();
 const BRANDS_DIR = path.join(CONTENT_DIR, 'marcas');
 const TIPS_DIR = path.join(CONTENT_DIR, 'dicas');
 
